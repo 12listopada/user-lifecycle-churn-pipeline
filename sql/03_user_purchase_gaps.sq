@@ -1,0 +1,35 @@
+-- 03_user_purchase_gaps.sql
+-- Computes days between a user's consecutive purchases using LAG().
+-- Used later as a churn signal (growing gaps = disengagement).
+
+DROP VIEW IF EXISTS vw_user_purchase_gaps;
+
+CREATE VIEW vw_user_purchase_gaps AS
+WITH user_orders AS (
+    -- one row per user per invoice (order-level, not line-item-level)
+    SELECT
+        user_id,
+        invoice_no,
+        MIN(DATE(event_ts)) AS order_date
+    FROM stg_events
+    GROUP BY user_id, invoice_no
+),
+ordered AS (
+    SELECT
+        user_id,
+        invoice_no,
+        order_date,
+        ROW_NUMBER() OVER (PARTITION BY user_id ORDER BY order_date) AS order_seq,
+        LAG(order_date) OVER (PARTITION BY user_id ORDER BY order_date) AS prev_order_date
+    FROM user_orders
+)
+SELECT
+    user_id,
+    invoice_no,
+    order_date,
+    order_seq,
+    prev_order_date,
+    CAST(JULIANDAY(order_date) - JULIANDAY(prev_order_date) AS INTEGER) AS days_since_prev_order
+FROM ordered;
+
+SELECT * FROM vw_user_purchase_gaps WHERE user_id = 12347 ORDER BY order_date;
