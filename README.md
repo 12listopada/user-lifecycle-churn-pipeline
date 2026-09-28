@@ -57,11 +57,14 @@ After cleaning: **805,549 transactions**, **5,878 unique customers**.
 **Page 1 — Executive Overview**
 - KPI cards: Total Revenue, Total Customers, Churn Rate %, ARPU, High Risk Customers
 - Cohort retention heatmap (% active users by month since acquisition)
+<img width="1390" height="788" alt="Zrzut ekranu 2026-09-28 191402" src="https://github.com/user-attachments/assets/35b741bb-bf0d-4ef8-b744-25986681470e" />
+
 
 **Page 2 — Churn Risk & Segmentation**
 - Churn risk distribution (Low/Medium/High, from the ML model)
 - RFM segment distribution (rule-based)
 - Priority Retention List: high-risk customers ranked by a combined Priority Score (churn probability × lifetime value), so retention effort targets high-value at-risk customers first, not just statistically risky ones
+<img width="1386" height="792" alt="Zrzut ekranu 2026-09-28 191411" src="https://github.com/user-attachments/assets/6a13b349-3421-4f44-8d2a-2dfee1dd0ae8" />
 
 ---
 
